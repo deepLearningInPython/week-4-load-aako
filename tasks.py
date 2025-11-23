@@ -43,7 +43,16 @@ print(tokens)
 # -----------------------------------------------
 def tokenize(string: str) -> list:
     cleanstring = "".join([char for char in string if char.isalnum() or char.isspace()])
-    return sorted(set(cleanstring.lower().split()))
+    tokens = cleanstring.lower().split()
+    unique_tokens = []
+    for tok in tokens:
+        if tok not in unique_tokens:
+            unique_tokens.append(tok)
+    return unique_tokens
+
+#def tokenize(string: str) -> list:
+#    cleanstring = "".join([char for char in string if char.isalnum() or char.isspace()])
+#    return sorted(set(cleanstring.lower().split()))
 
 print(tokenize(text))
 # -----------------------------------------------
