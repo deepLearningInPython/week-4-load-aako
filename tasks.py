@@ -313,6 +313,17 @@ def rnn_loss(w: np.array, list_of_sequences: list[np.array], y: np.array) -> np.
     pred = rnn_layer(w, list_of_sequences)
     return np.sum((y-pred)**2)
 
+np.random.seed(10)
+list_of_sequences = [np.random.normal(size=(5,3)) for _ in range(100)]
+wstart = np.random.normal(size=(3*3 + 3*3 + 3))  # 21 parameters
+
+# Test:
+y = np.array([(X @ np.arange(1,4))[0] for X in list_of_sequences])
+o = rnn_loss(wstart, list_of_sequences, y)
+o.size == 1 and o.round(3) == 17794.733
+# -----------------------------------------------
+
+
 
 
 # [G] Fitting the RNN with minimize for the scipy.optmize module
@@ -342,13 +353,6 @@ data_pairs = [(X[i:i+seq_len], y[i+seq_len]) for i in range(len(X)-seq_len)]
 # We need the input sequences and target values in a separate list. A trick to do this is this:
 
 list_of_sequences, yy = list(zip(*data_pairs))
-
-# Test:
-y = np.array([(X @ np.arange(1,4))[0] for X in list_of_sequences])
-o = rnn_loss(wstart, list_of_sequences, y)
-o.size == 1 and o.round(3) == 17794.733
-# -----------------------------------------------
-
 
 # Here, the zip(*...) is used for transposing a list of tuples. It splits the tuple pairs into
 # two separate lists:
